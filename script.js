@@ -1,4 +1,4 @@
-(function() {
+(function () {
   var settings = {
     rainbowLength: 64,
     rainbowMultiplier: 2,
@@ -6,27 +6,27 @@
     delay: 24, //not using it cuz rAF
     repeat: true,
     numberAches: {
-      topWeeoo: function(tI, k){
+      topWeeoo: function (tI, k) {
         return Math.sin((tI + k) / 6) * 20 + 'px';
       },
-      leftWeeoo: function(tI, k){
+      leftWeeoo: function (tI, k) {
         return Math.cos((tI + k) / 6) * 15 + 'px';
       },
-      spacingWeeoo: function(tI, k){
+      spacingWeeoo: function (tI, k) {
         return Math.sin((tI + k) / 15) * 6 + 'px';
       },
-      sizeWeeoo: function(tI, k){
-        return ((Math.sin( ((tI/2) + k)/10 )*16) + 72 ) + 'px';
+      sizeWeeoo: function (tI, k) {
+        return ((Math.sin(((tI / 2) + k) / 10) * 16) + 72) + 'px';
       },
-      opacityWeeoo: function(tI, k){
-        return Math.cos(tI + k)/8 + .8125;
+      opacityWeeoo: function (tI, k) {
+        return Math.cos(tI + k) / 8 + .8125;
       }
     }
   };
 
   var Δ = {
     rainbow: makeMeARainbow(settings.rainbowLength),
-    init: function() {
+    init: function () {
       var sourceElement = document.querySelector('.' + settings.rainbowClass);
 
       this.element = this.dissectText(sourceElement);
@@ -37,23 +37,23 @@
 
       return this;
     },
-    draw: function(el) {
+    draw: function (el) {
       if (!el) return;
       var _self = this;
 
       var spans = el.querySelectorAll('span');
-      [].forEach.call(spans, function(v, k) {
+      [].forEach.call(spans, function (v, k) {
         v.style.color = _self.rainbow[k % _self.rainbow.length];
         v.style.position = 'relative';
       });
 
       return spans;
     },
-    dissectText: function(sourceEl) {
+    dissectText: function (sourceEl) {
       var textSource = sourceEl.textContent,
         headingContainer = document.createElement('h1');
 
-      textSource.split('').forEach(function(v, k, c) {
+      textSource.split('').forEach(function (v, k, c) {
         var span = document.createElement('span'),
           destText = document.createTextNode(v);
 
@@ -65,7 +65,7 @@
 
       return headingContainer;
     },
-    update: function(spans) {
+    update: function (spans) {
       if (!spans) return;
       var _self = this,
         delay = settings.delay,
@@ -77,7 +77,7 @@
       requestAnimationFrame(animateText.bind(_self, spans, tI));
 
       function animateText(spans, tI) {
-        [].forEach.call(spans, function(v, k) {
+        [].forEach.call(spans, function (v, k) {
           v.style.color = _self.rainbow[(tI + k) % _self.rainbow.length];
           v.style.top = nanana.topWeeoo(tI, k); //Math.sin((tI + k) / 6) * 20 + 'px';
           v.style.left = nanana.leftWeeoo(tI, k); //Math.cos((tI + k) / 6) * 15 + 'px';
@@ -100,7 +100,7 @@
 
     return (function generateRainbow(arr, amount) {
       if (--amount < 0) return arr;
-      arr.push(generateColor(((length - amount+1) % length), length, settings.rainbowMultiplier));
+      arr.push(generateColor(((length - amount + 1) % length), length, settings.rainbowMultiplier));
       return generateRainbow(arr, amount);
     })([], length);
 
@@ -111,8 +111,8 @@
 
 })();
 
-(function() {
-  window.randomCanvas = (function(global) {
+(function () {
+  window.randomCanvas = (function (global) {
     var q = global.document.querySelector.bind(global.document),
       rand = Math.random,
       TWO_PI = 2 * Math.PI;
@@ -122,7 +122,7 @@
         canvas: 'canvas',
         starAmount: 600
       },
-      init: function(optionsObj) {
+      init: function (optionsObj) {
         var _self = this,
           options = extend(_self.options, optionsObj || {}),
           canvas;
@@ -136,7 +136,7 @@
 
         return _self;
       },
-      drawCircles: function(starAmount) {
+      drawCircles: function (starAmount) {
         var amount = starAmount || __self.options.starAmount,
           starArray = [];
 
@@ -154,22 +154,22 @@
 
         return starArray;
       },
-      addListeners: function() {
+      addListeners: function () {
         global.addEventListener('resize', __self.resize, false);
       },
-      resize: function() {
+      resize: function () {
         var dimensions = getWindowDimensions();
 
         __self.canvas.width = dimensions.width;
         __self.canvas.height = dimensions.height;
 
         if (__self.stars) {
-          __self.stars.forEach(function(c) {
+          __self.stars.forEach(function (c) {
             c.draw(true)
           });
         }
       },
-      randomWashedColor: function(type) {
+      randomWashedColor: function (type) {
         var color,
           channels = 3,
           colorsPerChannel = [];
@@ -201,10 +201,10 @@
 
         return color;
       },
-      randomRadius: function() {
+      randomRadius: function () {
         return randMinMax(0, 2);
       },
-      randomPosition: function() {
+      randomPosition: function () {
         var _self = this,
           dimensions = getWindowDimensions(),
           x = rand() * dimensions.width << 0,
@@ -243,7 +243,7 @@
           color: undefined
         }, options || {});
 
-      _self.draw = function(redraw, position, radius, color) {
+      _self.draw = function (redraw, position, radius, color) {
         var opt = _self.options,
           redraw = !!redraw || false,
           pos = position || opt.position || __self.randomPosition(),
@@ -256,7 +256,7 @@
           pos.y = pos.percentageY * wDim.height;
         }
 
-        requestAnimationFrame(function() {
+        requestAnimationFrame(function () {
           //temp blurry effect
           ctx.beginPath();
           ctx.arc(pos.x, pos.y, rad * 1.8, 0, TWO_PI, false);
@@ -278,8 +278,8 @@
 
   // UTILS
   function extend(target) {
-    Array.prototype.slice.call(arguments, 1).forEach(function(source) {
-      Object.getOwnPropertyNames(source).forEach(function(name) {
+    Array.prototype.slice.call(arguments, 1).forEach(function (source) {
+      Object.getOwnPropertyNames(source).forEach(function (name) {
         target[name] = source[name]
       })
     })
